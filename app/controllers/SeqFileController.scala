@@ -27,7 +27,7 @@ object SeqFileController extends Controller {
 
   import java.net.URI
 
-  def index(path: String, offset: Option[Long], key: Option[String], limit: Option[Int]) = Action { implicit request =>
+  def index(path: String, offset: Option[Long], key: Option[String], limit: Option[Int]) = Action {
     val uri  = configuration.getString("hadoop.uri") // "hadoop.uri=hdfs://hadoop" in conf/application.conf file
     val conf = new Configuration()
     val fs = if (uri.isEmpty) FileSystem.get(conf) else FileSystem.get(URI.create(uri.get), conf)
