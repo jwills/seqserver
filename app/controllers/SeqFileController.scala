@@ -12,7 +12,6 @@
  * the specific language governing permissions and limitations under the
  * License.
  */
-
 package controllers;
 
 import play.api.Play._;
@@ -26,12 +25,12 @@ object SeqFileController extends Controller {
   import org.apache.hadoop.io.SequenceFile
   import org.apache.hadoop.io.SequenceFile.{Reader => SFReader}
 
-  val AcceptText = Accepting("text")
+  import java.net.URI
 
   def index(path: String, offset: Option[Long], key: Option[String], limit: Option[Int]) = Action { implicit request =>
     val uri  = configuration.getString("hadoop.uri") // "hadoop.uri=hdfs://hadoop" in conf/application.conf file
     val conf = new Configuration()
-    val fs = FileSystem.get(conf)
+    val fs = FileSystem.get(URI.create(uri.get), conf)
    
     val fsPath = new Path(if (path.startsWith("/")) path else "/" + path)
     val searchText = new Text(key.getOrElse(""))
