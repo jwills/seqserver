@@ -35,7 +35,7 @@ object SeqFileController extends Controller {
     val fsPath = new Path(if (path.startsWith("/")) path else "/" + path)
     val searchText = new Text(key.getOrElse(""))
     if (fs.exists(fsPath)) {
-      val reader = new SFReader(conf, SFReader.file(fsPath))
+      val reader = new SFReader(fs, fsPath, conf)
       if (!offset.isEmpty) reader.sync(offset.get)
       val value = find(reader, searchText, limit.getOrElse(1000))
       val isText = classOf[Text].equals(reader.getValueClass())
